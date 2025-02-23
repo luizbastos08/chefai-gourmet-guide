@@ -3,15 +3,15 @@ import React from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Features from '@/components/Features';
+import HowItWorks from '@/components/HowItWorks';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+    <div className="min-h-screen">
       <Header />
-      <main>
-        <Hero />
-        <Features />
-      </main>
+      <Hero />
+      <Features />
+      <HowItWorks />
     </div>
   );
 };
