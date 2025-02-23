@@ -21,12 +21,12 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#FF6B6B",
-          hover: "#ff5252",
+          DEFAULT: "#ff7f50",
+          hover: "#ff6b3c",
         },
         secondary: {
-          DEFAULT: "#4ECDC4",
-          hover: "#45b7af",
+          DEFAULT: "#88d8b0",
+          hover: "#79c9a1",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
