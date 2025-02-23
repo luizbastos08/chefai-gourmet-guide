@@ -2,8 +2,11 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { PlayCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="pt-32 pb-20 px-4 min-h-[90vh] flex items-center bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto">
@@ -18,7 +21,11 @@ const Hero = () => {
             Transform your cooking experience with AI-powered recipes, smart suggestions, and step-by-step guidance. Perfect meals, every time.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="bg-primary hover:bg-primary-hover text-white min-w-[200px]">
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary-hover text-white min-w-[200px]"
+              onClick={() => navigate('/chat')}
+            >
               Start Cooking Now
             </Button>
             <Button size="lg" variant="outline" className="min-w-[200px]">
