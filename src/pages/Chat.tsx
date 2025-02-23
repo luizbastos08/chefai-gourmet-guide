@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -30,7 +31,7 @@ const Chat = () => {
     {
       id: '1',
       role: 'assistant',
-      content: "Hello! I'm your AI Chef assistant. Feel free to speak or type your cooking questions.",
+      content: "Hello! I'm your AI Chef assistant. How can I help you today?",
       type: 'voice'
     }
   ]);
