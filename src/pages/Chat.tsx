@@ -192,14 +192,16 @@ const Chat = () => {
           <Button
             size="sm"
             variant="ghost"
-            className="text-gray-500"
+            className={`text-gray-500 hover:bg-gray-100 transition-colors ${
+              !voiceState.isSpeaking ? 'text-red-500' : ''
+            }`}
             onClick={() => setVoiceState(prev => ({ 
               ...prev, 
-              isSpeaking: false,
+              isSpeaking: !prev.isSpeaking,
               audioQueue: [] 
             }))}
           >
-            {voiceState.isSpeaking ? <VolumeX /> : <Volume2 />}
+            {voiceState.isSpeaking ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
           </Button>
         </div>
 
@@ -250,12 +252,14 @@ const Chat = () => {
               size="lg"
               variant={voiceState.isListening ? "default" : "secondary"}
               className={`rounded-full w-16 h-16 p-0 transition-transform ${
-                voiceState.isListening ? 'animate-pulse' : ''
+                voiceState.isListening ? 'animate-pulse bg-primary' : 'bg-red-100'
               }`}
               onClick={toggleListening}
             >
               <AudioWaveform className={`w-6 h-6 ${
-                voiceState.isListening ? 'text-primary animate-pulse' : 'text-muted-foreground'
+                voiceState.isListening 
+                  ? 'text-white animate-pulse' 
+                  : 'text-red-500'
               }`} />
             </Button>
           </div>
