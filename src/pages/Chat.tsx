@@ -36,7 +36,7 @@ const Chat = () => {
   const [textInput, setTextInput] = useState('');
   const [voiceState, setVoiceState] = useState<VoiceState>({
     isListening: false,
-    isSpeaking: false,
+    isSpeaking: true, // Initialize as true so ChefAI starts with voice enabled
     audioContext: null,
     audioQueue: []
   });
