@@ -1,23 +1,33 @@
 
 import React from 'react';
-import { Camera, Clock, ChefHat } from 'lucide-react';
+import { Camera, ChefHat, Clock, Wallet, Dna } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
 const features = [
   {
-    title: "Ingredient Recognition",
-    description: "Snap a photo of your ingredients and get instant recipe suggestions tailored to what you have.",
+    title: "AI Pantry Scan",
+    description: "Snap, Scan, Serve: Turn random ingredients into perfect meals in seconds.",
     icon: Camera,
   },
   {
-    title: "Step-by-Step Guidance",
-    description: "Follow clear, interactive instructions with timing tips and technique videos when you need them.",
+    title: "Chef-Level Cooking Coach",
+    description: "Step-by-Step Guidance: Follow clear, interactive instructions with timing tips and technique videos when you need them.",
     icon: ChefHat,
   },
   {
-    title: "Smart Time Management",
+    title: "Kitchen Symphony Mode",
     description: "AI-powered timing suggestions help you manage multiple dishes and get everything ready at once.",
     icon: Clock,
+  },
+  {
+    title: "Budget Meal Wizard",
+    description: "Eat Like a King on a Ramen Budget",
+    icon: Wallet,
+  },
+  {
+    title: "Flavor DNA Profile",
+    description: "Recipes That Actually Match Your Taste",
+    icon: Dna,
   },
 ];
 
