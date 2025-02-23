@@ -8,8 +8,18 @@ const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="pt-32 pb-20 px-4 min-h-[90vh] flex items-center bg-gradient-to-b from-white to-gray-50">
-      <div className="container mx-auto">
+    <section className="relative pt-32 pb-20 px-4 min-h-[90vh] flex items-center">
+      <div 
+        className="absolute inset-0 w-full h-full z-0"
+        style={{
+          backgroundImage: "url('/lovable-uploads/2fab8217-9005-4141-99f6-6b38841b1fee.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-0" />
+      <div className="container mx-auto relative z-10">
         <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-up">
           <h1 className="text-4xl md:text-6xl font-bold leading-tight">
             Your Personal
