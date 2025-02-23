@@ -119,8 +119,8 @@ const Chat = () => {
       if (!file.type.startsWith('image/')) {
         toast({
           variant: "destructive",
-          title: "Formato inválido",
-          description: "Por favor, envie apenas arquivos de imagem (jpg, png, gif)."
+          title: "Invalid format",
+          description: "Please upload only image files (jpg, png, gif)."
         });
         setIsUploading(false);
         return;
@@ -130,8 +130,8 @@ const Chat = () => {
       if (file.size > maxSize) {
         toast({
           variant: "destructive",
-          title: "Arquivo muito grande",
-          description: "O tamanho máximo permitido é 5MB."
+          title: "File too large",
+          description: "Maximum file size allowed is 5MB."
         });
         setIsUploading(false);
         return;
@@ -140,7 +140,7 @@ const Chat = () => {
       const newMessage: Message = {
         id: Date.now().toString(),
         role: 'user',
-        content: 'Imagem enviada',
+        content: 'Image sent',
         type: 'image',
         imageUrl: URL.createObjectURL(file)
       };
@@ -153,15 +153,15 @@ const Chat = () => {
       }
 
       toast({
-        title: "Sucesso",
-        description: "Imagem enviada com sucesso!"
+        title: "Success",
+        description: "Image uploaded successfully!"
       });
     } catch (error) {
       console.error('Error uploading image:', error);
       toast({
         variant: "destructive",
-        title: "Erro",
-        description: "Falha ao enviar a imagem. Tente novamente."
+        title: "Error",
+        description: "Failed to upload image. Please try again."
       });
     } finally {
       setIsUploading(false);
@@ -173,7 +173,7 @@ const Chat = () => {
       const assistantMessage: Message = {
         id: Date.now().toString(),
         role: 'assistant',
-        content: 'Processando sua solicitação...',
+        content: 'Processing your request...',
         type: 'voice'
       };
 
@@ -184,8 +184,8 @@ const Chat = () => {
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Erro",
-        description: "Falha ao processar sua solicitação."
+        title: "Error",
+        description: "Failed to process your request."
       });
     }
   };
@@ -259,7 +259,7 @@ const Chat = () => {
                   {message.type === 'image' && message.imageUrl ? (
                     <img 
                       src={message.imageUrl} 
-                      alt="Imagem enviada" 
+                      alt="Uploaded image" 
                       className="rounded-lg max-w-full h-auto mb-2"
                     />
                   ) : (
@@ -324,7 +324,7 @@ const Chat = () => {
             <Input
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
-              placeholder="Ou digite sua mensagem aqui..."
+              placeholder="Or type your message here..."
               className="flex-1"
             />
             <Button type="submit" disabled={!textInput.trim()}>
