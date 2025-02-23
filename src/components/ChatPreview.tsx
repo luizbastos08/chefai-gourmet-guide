@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Send, Image } from 'lucide-react';
+import { Send, Image, ChefHat } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
 const ChatPreview = () => {
