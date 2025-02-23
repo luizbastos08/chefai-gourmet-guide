@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Mic, MicOff, Send, ChefHat, Volume2, VolumeX } from 'lucide-react';
+import { Mic, MicOff, Send, ChefHat, Volume2, VolumeX, ImagePlus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
@@ -10,8 +10,9 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  type: 'voice' | 'text';
+  type: 'voice' | 'text' | 'image';
   audioUrl?: string;
+  imageUrl?: string;
 }
 
 interface VoiceState {
@@ -153,6 +154,31 @@ const Chat = () => {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        variant: "destructive",
+        title: "Invalid file type",
+        description: "Please upload an image file."
+      });
+      return;
+    }
+
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: 'Sent an image',
+      type: 'image',
+      imageUrl: URL.createObjectURL(file)
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    await processUserInput(newMessage);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 p-4">
       <Card className="max-w-4xl mx-auto h-[80vh] flex flex-col">
@@ -189,7 +215,15 @@ const Chat = () => {
                       : 'bg-gray-100'
                   }`}
                 >
-                  <p>{message.content}</p>
+                  {message.type === 'image' && message.imageUrl ? (
+                    <img 
+                      src={message.imageUrl} 
+                      alt="User uploaded image" 
+                      className="rounded-lg max-w-full h-auto mb-2"
+                    />
+                  ) : (
+                    <p>{message.content}</p>
+                  )}
                   {message.audioUrl && message.role === 'assistant' && (
                     <div className="flex justify-end mt-2">
                       <Button
@@ -224,7 +258,24 @@ const Chat = () => {
             </Button>
           </div>
 
-          <form onSubmit={handleSendText} className="flex space-x-2">
+          <form onSubmit={handleSendText} className="flex items-center space-x-2">
+            <Input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              id="image-upload"
+              onChange={handleImageUpload}
+            />
+            <label htmlFor="image-upload">
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                className="h-10 w-10"
+              >
+                <ImagePlus className="h-4 w-4" />
+              </Button>
+            </label>
             <Input
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
