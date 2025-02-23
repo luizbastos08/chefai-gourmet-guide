@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Mic, MicOff, Send, ChefHat, Volume2, VolumeX, ImagePlus } from 'lucide-react';
+import { Send, ChefHat, Volume2, VolumeX, ImagePlus, AudioWaveform } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
@@ -46,7 +47,8 @@ const Chat = () => {
         await navigator.mediaDevices.getUserMedia({ audio: true });
         setVoiceState(prev => ({
           ...prev,
-          audioContext: new AudioContext()
+          audioContext: new AudioContext(),
+          isListening: true // Auto-start listening
         }));
       } catch (error) {
         toast({
@@ -246,15 +248,15 @@ const Chat = () => {
           <div className="flex justify-center">
             <Button
               size="lg"
-              variant={voiceState.isListening ? "destructive" : "default"}
-              className="rounded-full w-16 h-16 p-0"
+              variant={voiceState.isListening ? "default" : "secondary"}
+              className={`rounded-full w-16 h-16 p-0 transition-transform ${
+                voiceState.isListening ? 'animate-pulse' : ''
+              }`}
               onClick={toggleListening}
             >
-              {voiceState.isListening ? (
-                <MicOff className="w-6 h-6" />
-              ) : (
-                <Mic className="w-6 h-6" />
-              )}
+              <AudioWaveform className={`w-6 h-6 ${
+                voiceState.isListening ? 'text-primary animate-pulse' : 'text-muted-foreground'
+              }`} />
             </Button>
           </div>
 
