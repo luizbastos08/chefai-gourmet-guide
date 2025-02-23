@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -41,7 +40,6 @@ const Chat = () => {
   });
 
   useEffect(() => {
-    // Request microphone permission on component mount
     const requestMicrophonePermission = async () => {
       try {
         await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -61,7 +59,6 @@ const Chat = () => {
     requestMicrophonePermission();
 
     return () => {
-      // Cleanup audio context on unmount
       voiceState.audioContext?.close();
     };
   }, []);
@@ -77,7 +74,6 @@ const Chat = () => {
   const startListening = async () => {
     try {
       setVoiceState(prev => ({ ...prev, isListening: true }));
-      // Speech recognition logic will be implemented here
     } catch (error) {
       toast({
         variant: "destructive",
@@ -89,7 +85,6 @@ const Chat = () => {
 
   const stopListening = () => {
     setVoiceState(prev => ({ ...prev, isListening: false }));
-    // Stop speech recognition logic will be implemented here
   };
 
   const handleSendText = async (e: React.FormEvent) => {
@@ -110,8 +105,6 @@ const Chat = () => {
 
   const processUserInput = async (message: Message) => {
     try {
-      // This will be implemented with Supabase Edge Functions
-      // to handle both the OpenAI API call and ElevenLabs voice synthesis
       const assistantMessage: Message = {
         id: Date.now().toString(),
         role: 'assistant',
@@ -197,9 +190,8 @@ const Chat = () => {
                   }`}
                 >
                   <p>{message.content}</p>
-                  <div className="flex items-center justify-between mt-2 text-xs opacity-70">
-                    <span>via {message.type}</span>
-                    {message.audioUrl && message.role === 'assistant' && (
+                  {message.audioUrl && message.role === 'assistant' && (
+                    <div className="flex justify-end mt-2">
                       <Button
                         size="sm"
                         variant="ghost"
@@ -208,8 +200,8 @@ const Chat = () => {
                       >
                         <Volume2 className="h-3 w-3" />
                       </Button>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
