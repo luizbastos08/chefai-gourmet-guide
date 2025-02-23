@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Send, CookingPot, Volume2, VolumeX, ImagePlus, AudioWaveform } from 'lucide-react';
@@ -24,6 +24,8 @@ interface VoiceState {
 
 const Chat = () => {
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -106,38 +108,64 @@ const Chat = () => {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    try {
+      setIsUploading(true);
+      const file = e.target.files?.[0];
+      if (!file) {
+        setIsUploading(false);
+        return;
+      }
 
-    if (!file.type.startsWith('image/')) {
+      if (!file.type.startsWith('image/')) {
+        toast({
+          variant: "destructive",
+          title: "Formato inválido",
+          description: "Por favor, envie apenas arquivos de imagem (jpg, png, gif)."
+        });
+        setIsUploading(false);
+        return;
+      }
+
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        toast({
+          variant: "destructive",
+          title: "Arquivo muito grande",
+          description: "O tamanho máximo permitido é 5MB."
+        });
+        setIsUploading(false);
+        return;
+      }
+
+      const newMessage: Message = {
+        id: Date.now().toString(),
+        role: 'user',
+        content: 'Imagem enviada',
+        type: 'image',
+        imageUrl: URL.createObjectURL(file)
+      };
+
+      setMessages(prev => [...prev, newMessage]);
+      await processUserInput(newMessage);
+      
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      toast({
+        title: "Sucesso",
+        description: "Imagem enviada com sucesso!"
+      });
+    } catch (error) {
+      console.error('Error uploading image:', error);
       toast({
         variant: "destructive",
-        title: "Formato inválido",
-        description: "Por favor, envie apenas arquivos de imagem."
+        title: "Erro",
+        description: "Falha ao enviar a imagem. Tente novamente."
       });
-      return;
+    } finally {
+      setIsUploading(false);
     }
-
-    const maxSize = 5 * 1024 * 1024;
-    if (file.size > maxSize) {
-      toast({
-        variant: "destructive",
-        title: "Arquivo muito grande",
-        description: "O tamanho máximo permitido é 5MB."
-      });
-      return;
-    }
-
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: 'Imagem enviada',
-      type: 'image',
-      imageUrl: URL.createObjectURL(file)
-    };
-
-    setMessages(prev => [...prev, newMessage]);
-    await processUserInput(newMessage);
   };
 
   const processUserInput = async (message: Message) => {
@@ -279,6 +307,7 @@ const Chat = () => {
               accept="image/*"
               className="hidden"
               id="image-upload"
+              ref={fileInputRef}
               onChange={handleImageUpload}
             />
             <label htmlFor="image-upload">
@@ -287,8 +316,9 @@ const Chat = () => {
                 variant="outline"
                 size="icon"
                 className="h-10 w-10"
+                disabled={isUploading}
               >
-                <ImagePlus className="h-4 w-4" />
+                <ImagePlus className={`h-4 w-4 ${isUploading ? 'animate-spin' : ''}`} />
               </Button>
             </label>
             <Input
