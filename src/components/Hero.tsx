@@ -18,7 +18,7 @@ const Hero = () => {
             Always Ready to Help
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Transform your cooking experience with AI-powered recipes, smart suggestions, and step-by-step guidance. Perfect meals, every time.
+            Transform your cooking experience with crafted recipes, smart suggestions, and step-by-step guidance. Perfect meals, every time.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button 
