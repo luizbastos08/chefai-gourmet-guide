@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -36,7 +35,7 @@ const Chat = () => {
   const [textInput, setTextInput] = useState('');
   const [voiceState, setVoiceState] = useState<VoiceState>({
     isListening: false,
-    isSpeaking: true, // Initialize as true so ChefAI starts with voice enabled
+    isSpeaking: true,
     audioContext: null,
     audioQueue: []
   });
@@ -48,7 +47,7 @@ const Chat = () => {
         setVoiceState(prev => ({
           ...prev,
           audioContext: new AudioContext(),
-          isListening: true // Auto-start listening
+          isListening: true
         }));
       } catch (error) {
         toast({
@@ -106,12 +105,47 @@ const Chat = () => {
     await processUserInput(newMessage);
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        variant: "destructive",
+        title: "Formato inválido",
+        description: "Por favor, envie apenas arquivos de imagem."
+      });
+      return;
+    }
+
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      toast({
+        variant: "destructive",
+        title: "Arquivo muito grande",
+        description: "O tamanho máximo permitido é 5MB."
+      });
+      return;
+    }
+
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: 'Imagem enviada',
+      type: 'image',
+      imageUrl: URL.createObjectURL(file)
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    await processUserInput(newMessage);
+  };
+
   const processUserInput = async (message: Message) => {
     try {
       const assistantMessage: Message = {
         id: Date.now().toString(),
         role: 'assistant',
-        content: 'Processing your request...',
+        content: 'Processando sua solicitação...',
         type: 'voice'
       };
 
@@ -122,8 +156,8 @@ const Chat = () => {
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to process your request."
+        title: "Erro",
+        description: "Falha ao processar sua solicitação."
       });
     }
   };
@@ -154,31 +188,6 @@ const Chat = () => {
         description: "Failed to play audio response."
       });
     }
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      toast({
-        variant: "destructive",
-        title: "Invalid file type",
-        description: "Please upload an image file."
-      });
-      return;
-    }
-
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: 'Sent an image',
-      type: 'image',
-      imageUrl: URL.createObjectURL(file)
-    };
-
-    setMessages(prev => [...prev, newMessage]);
-    await processUserInput(newMessage);
   };
 
   return (
@@ -222,7 +231,7 @@ const Chat = () => {
                   {message.type === 'image' && message.imageUrl ? (
                     <img 
                       src={message.imageUrl} 
-                      alt="User uploaded image" 
+                      alt="Imagem enviada" 
                       className="rounded-lg max-w-full h-auto mb-2"
                     />
                   ) : (
@@ -285,7 +294,7 @@ const Chat = () => {
             <Input
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
-              placeholder="Or type your message here..."
+              placeholder="Ou digite sua mensagem aqui..."
               className="flex-1"
             />
             <Button type="submit" disabled={!textInput.trim()}>
