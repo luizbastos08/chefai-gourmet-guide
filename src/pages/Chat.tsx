@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Send, ChefHat, Volume2, VolumeX, ImagePlus, AudioWaveform } from 'lucide-react';
+import { Send, CookingPot, Volume2, VolumeX, ImagePlus, AudioWaveform } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
@@ -186,7 +186,7 @@ const Chat = () => {
       <Card className="max-w-4xl mx-auto h-[80vh] flex flex-col">
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <ChefHat className="w-6 h-6 text-primary" />
+            <CookingPot className="w-6 h-6 text-primary" />
             <h1 className="text-xl font-semibold">Chat with ChefAI</h1>
           </div>
           <Button
