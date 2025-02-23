@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Camera, Chef, Clock, Save, CheckCircle, Sparkles } from 'lucide-react';
+import { Camera, ChefHat, Clock, Save, CheckCircle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
 const steps = [
@@ -16,7 +15,7 @@ const steps = [
   {
     title: "AI Matches You with Perfect Recipes",
     description: "Our chef analyzes 100,000+ recipes to find dishes that fit your:",
-    icon: Chef,
+    icon: ChefHat,
     features: [
       "Ingredients (no missing items!)",
       "Dietary needs (vegan, gluten-free, low-carb, etc.)",
