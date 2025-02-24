@@ -2,11 +2,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { PlayCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
-  const navigate = useNavigate();
-
   return (
     <section className="relative pt-32 pb-20 px-4 min-h-[90vh] flex items-center">
       <div 
@@ -34,7 +31,7 @@ const Hero = () => {
             <Button 
               size="lg" 
               className="bg-primary hover:bg-primary-hover text-white min-w-[200px]"
-              onClick={() => navigate('/chat')}
+              onClick={() => window.location.href = 'https://preview--friendly-agent-mind.lovable.app/'}
             >
               Start Cooking Now
             </Button>
